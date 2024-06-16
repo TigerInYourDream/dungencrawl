@@ -1,3 +1,5 @@
+use world::SubWorld;
+
 use crate::prelude::*;
 
 #[system]

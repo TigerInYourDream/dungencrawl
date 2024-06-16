@@ -15,7 +15,6 @@ mod prelude {
     pub use crate::map_builder::*;
     pub use crate::spwaner::*;
     pub use crate::system::*;
-    pub use legion::world::SubWorld;
     pub use legion::*;
 
     pub const DISPLAY_WIDTH: i32 = SCREEN_WIDTH / 2;
@@ -39,6 +38,12 @@ impl Default for State {
         let mut rng = RandomNumberGenerator::new();
         let map_builder = MapBuilder::new(&mut rng);
         spwan_player(&mut ecs, map_builder.player_start);
+
+        map_builder
+            .rooms
+            .iter()
+            .skip(1)
+            .for_each(|room| spawn_monster(&mut ecs, &mut rng, room.center()));
 
         resources.insert(map_builder.map);
         resources.insert(Camera::new(map_builder.player_start));
